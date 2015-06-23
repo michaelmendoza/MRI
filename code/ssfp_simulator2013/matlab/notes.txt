@@ -1,0 +1,9 @@
+% Notes
+% 
+% - Get Complex Sum to look good
+% - Try added a constant phase to each image pi/2, pi, 3pi/2, 2pi
+% - Correlate the source of the constant phase with precise values
+% - Start abstract
+
+alpha = pi/8
+50 - 21 = 29 out of 100

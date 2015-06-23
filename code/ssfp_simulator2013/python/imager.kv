@@ -1,0 +1,223 @@
+#:kivy 1.6.0
+
+<Imager>
+    mainImageDisplay: mainImageDisplay
+    mainPanel: mainPanel
+    algoModeSelector: algoModeSelector
+
+    canvas:
+        Color:
+            rgb: 1,1,1
+        Rectangle:
+            source:'./background.jpg'
+            size: self.size
+            pos: self.pos
+            
+    BoxLayout:
+        orientation: 'horizontal'
+        
+        BoxLayout:
+            orientation: 'vertical'
+            RelativeLayout:
+                FloatLayout: 
+                    id: mainImageDisplay
+            BoxLayout:
+                oreientation: 
+                size_hint_x: 1.
+                size_hint_y: None
+                height: 50
+                Button:
+                    text: 'Load'
+                Button
+                    text: 'Save'
+                Label:
+                    text: root.statusLabel
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: None
+            size_hint_y: 1.
+            width: 400
+                    
+            GridLayout:
+                cols: 1
+                height: 50
+                size_hint_x: 1.
+                size_hint_y: None
+                
+                Spinner:
+                    id: algoModeSelector
+                    text: 'Select: Current Algorithm'
+                    values: 'SSFP', 'Water Fat Separation'
+                    on_text: root.selectAlgoMode()
+            BoxLayout:
+                id: mainPanel
+                
+                canvas:
+                    Color:
+                        rgba: 0.25, 0.25, 0.25, 1.0
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+<ImageDisplay>
+    canvas:
+        Color:
+            rgb: (1.,1.,1.)
+        Rectangle:
+            texture: self.texture
+            size: self.size
+            pos: self.pos
+
+#:import math math
+<SSPFOptionsPanel>
+    alpha: alpha
+    phi: phi
+    dphi: dphi
+    nr: Nr
+    te: TE
+    tr: TR
+
+    BoxLayout:  
+        orientation: 'vertical'
+        padding: 10
+
+        Label:
+            text: 'Sequence Parameters'
+            size_hint_y: None
+            height: 50
+
+        BoxLayout: 
+            orientation: 'vertical'
+            PropertySlider:
+                id: alpha
+                text: 'Alpha'
+                value: math.pi/3
+                max: 2 * math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: phi
+                text: 'Phi'
+                value: 0.
+                min: -math.pi
+                max: math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: dphi
+                text: 'dPhi'
+                value: 0.
+                min: -math.pi
+                max: math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: Nr
+                text: 'Nr'
+                value: 200
+                max: 200
+                step: 1
+            PropertySlider:
+                id: TE
+                text: 'TE (ms)'
+                value: 5
+                max: 25
+            PropertySlider:
+                id: TR
+                text: 'TR (ms)'
+                value: 10
+                max: 25
+                
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 50
+            padding: 10
+
+            Button:
+                text: 'Off-Resonance Graph'
+                on_press: root.plotOffResonance()
+            Button:
+                text: 'Simulate Tissue'
+                on_press: root.showSSPFTissueSequence()
+
+<WaterFatOptionsPanel>
+    alpha: alpha
+    phi: phi
+    dphi: dphi
+    nr: Nr
+    te: TE
+    tr: TR
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+
+        Label:
+            text: 'Sequence Parameters'
+            size_hint_y: None
+            height: 50
+
+        BoxLayout:
+            orientation: 'vertical'
+            PropertySlider:
+                id: alpha
+                text: 'Alpha'
+                value: math.pi/3
+                max: 2 * math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: phi
+                text: 'Phi'
+                value: 0.
+                min: -math.pi
+                max: math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: dphi
+                text: 'dPhi'
+                value: 0.
+                min: -math.pi
+                max: math.pi
+                step: math.pi/8
+            PropertySlider:
+                id: Nr
+                text: 'Nr'
+                value: 200
+                max: 200
+                step: 1
+            PropertySlider:
+                id: TE
+                text: 'TE (ms)'
+                value: 5
+                max: 25
+            PropertySlider:
+                id: TR
+                text: 'TR (ms)'
+                value: 10
+                max: 25
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 50
+            padding: 10
+
+            Button:
+                text: 'Off-Resonance Graph'
+                on_press: root.plotOffResonance()
+            Button:
+                text: 'Simulate Tissue'
+                on_press: root.showSSPFTissueSimulation()
+
+<PropertySlider>
+    theSlider: theSlider
+    orientation: 'horizontal'
+    Label:
+        text: root.text
+    Slider:
+        id: theSlider
+        min: root.min
+        max: root.max
+        step: root.step
+        value: root.value
+        on_value: root.valueChanged()
+    Label:
+        text: "{0:.3f}".format(theSlider.value)
